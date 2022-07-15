@@ -1,0 +1,179 @@
+﻿body 
+{
+	background:url('../images/Yu-Gi-Oh!.jpg') no-repeat center fixed;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* Used to make list appear in outer <ul> and fit contents in terms of width. */
+.nav_link, .nav_link li a
+{
+	background-color: #6666FF;
+}
+
+.nav_link 
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	height: 30px;
+	overflow: hidden;
+}
+
+.nav_link li 
+{
+	float:left;
+}
+
+.nav_link li a 
+{
+	text-decoration: none;
+	display: block;
+	width: 100px;
+	font-weight: bold;
+	padding: 5px;
+	text-align: center;
+}
+
+.nav_link li a:hover 
+{
+	background-color: #006699;
+}
+
+.nav_link  li a#current
+{
+	background: white;
+	border-bottom: 1px solid white;
+}
+/* Semi-Transparent Background in Center Position */
+#content
+{
+	clear: both;
+    background: RGBA(212, 215, 255, 0.80); 
+    height: auto;
+    width: 1000px;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header
+{
+	margin-top: -26px;
+}
+
+#sales, #catalog, #cart, #admin
+{
+	background: RGBA(212, 215, 255, 0.95); 
+}
+
+.aItem, .cItem, .eItem
+{
+	position: relative;
+	border-width: 2px;
+    border-top-style: groove;
+    border-bottom-style: groove;
+}
+
+.cCart, #aDesc, .adminControl, .aTable, #error
+{
+	margin-left: 15px;
+}
+
+#error
+{
+	font-size: 150%;
+	color: Red;
+}
+
+.aItem
+{
+    width: 100%;
+	height: 450px;
+}
+
+.aCart
+{
+	margin: auto;
+    width: 65%;
+}
+
+.cCart
+{
+	margin-top: -20px;
+	padding: 10px;
+}
+
+.eItem
+{
+	padding-bottom: 10px;
+}
+
+/* Margin Position*/
+h1, h2, h3, p, #aItem, .imgLeft
+{
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+h1, .nav_link li a
+{
+	color: #035096;
+}
+
+.imgLogo
+{
+	float: top;
+	width: 716px;
+	height: 289px;
+	margin-left: 150px;
+	margin-right: 130px;
+}
+
+.imgLeft
+{
+	float: left;
+	width: 137px;
+	height: 200px;
+}
+
+h1
+{
+	font-size: 300%;
+	text-align: center;
+}
+
+h2
+{
+	color: #191970;
+}
+
+h2#title
+{
+	font-size: 200%;
+	padding-top: 20px;	
+}
+
+h2#theader
+{
+	font-size: 150%;
+	margin-left: 25px;
+}
+
+p 
+{
+	font-size: 20px;
+	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+#pagenum
+{
+	background: #FFFFFF;
+	padding: 7px;
+}
+
+#right
+{
+	float: right;
+}

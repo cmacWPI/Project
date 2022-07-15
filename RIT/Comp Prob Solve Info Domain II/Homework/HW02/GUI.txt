@@ -1,0 +1,32 @@
+-- How to Exit GUI --
+
+Simple, try to solve this riddle and reach 100% progress in GUI title and the exit button will be unlocked. 
+
+If it reached 100% progress, it will show the message saying "Congratulations!" to the user.
+
+To end it right now, go to [File] then click [End] 3 times in row. After that, go to [File] --> [Exit] to end the program.
+
+-- List of Controls in GUI --
+
+Menu - Has two menu, [File] and [Help] with it one of submenus that starts the program [End]
+
+All submenus of [File] writes text to JTextArea
+
+All of its controls minus menu bar have their position randomized on each start up.
+
+- CheckBox Signs -
+Checking and unchecking one of checkbox sometimes increase and then decrease (or the opposite way!) the progress %.
+All of checkbox signs increases then decreases by different value, and are not same. While they do share same function, each checkbox increases/decreases the progress by a lot while other increases or decreases a little. Also by checking one of the checkboxes, the other checkboxes will be disabled until the checked checkbox becomes unchecked.
+
+- Add/Subtract RadioButton -
+Add: As it may looks like it is adding, it is actually decreases your progress.
+Subtract: As it may looks like it is subtracting, it actually increases your progress.
+
+- Four JButtons -
+All JButton minus Exit writes text to JText Area
+Check - Performs the last task if the progress is near 100% complete, else writes text to JTextArea, and is actually a function of [Submit] button
+Submit - If the progress is 1% or higher, it writes text to JTextArea and is actually a function of [Check] button.
+Reset - Writes text to JTextArea and half reset the value by the amount based on progress %.
+Exit - Once it reached 100% progress, the button will be unlocked and then allows the user to exit the program.
+
+Note: Just by clicking X/Red Dot on upper right of Frame doesn't kill the program. 

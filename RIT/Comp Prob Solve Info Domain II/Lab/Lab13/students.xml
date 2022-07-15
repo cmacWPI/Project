@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- LBE23 XML -->
+<!-- Jai Kang -->
+<students>
+  <student>
+    <id>12345</id>
+    <name>
+      <lastname>Bettinger</lastname>
+      <firstname>Matthew</firstname>
+    </name>
+    <gpa>3.5</gpa>
+  </student>
+  <student>
+    <id>12355</id>
+    <name>
+      <lastname>Collins</lastname>
+      <firstname>Andrew</firstname>
+    </name>
+    <gpa>3.8</gpa>
+  </student>
+  <student>
+    <id>12365</id>
+    <name>
+      <lastname>Robinson</lastname>
+      <firstname>Linda</firstname>
+    </name>
+    <gpa>4.0</gpa>
+  </student>
+</students>

@@ -1,0 +1,121 @@
+﻿body {
+	background:url('../images/Dragon-Ball-Z-Battle-of-Gods-Background.jpg') no-repeat center fixed;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* Used to make list appear in outer <ul> and fit contents in terms of width. */
+#nav {
+	float: left; 
+	width: 100%;
+	background: #6666FF;
+}
+
+/* Horizontal */
+#nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 9em;
+	float: left;
+}
+
+/* Font Size/Type and Background for Navigation Bar */
+#nav a, #nav h2 {
+	font: bold 16px Arial, Helvetica;
+	text-align: center;  
+	display: block;
+	margin: 0;
+	color: #FFFFFF;
+	padding: 5px;
+}
+
+#nav a {
+	color: #FFFFFF;
+	background: #6666FF;
+	text-decoration: none;
+}
+
+#nav a:hover, h2:hover {
+	color: #FFFFFF;
+	background: #006699;
+}
+
+/* Positioning Content */
+#nav li {
+	position: relative;
+}
+
+#nav ul ul {
+	position: absolute;
+	z-index: 500;
+}
+
+#nav ul ul ul {
+	position: absolute;
+	top: 0;
+	left: 100%;
+}
+
+/* Hides Submenus */
+div#nav ul ul{
+	display: none;
+}
+
+/* Reveal Submenus only when hovered*/
+div#nav ul li:hover ul, div#nav ul ul li:hover ul, div#nav ul ul ul li:hover ul {
+	display: block;
+}
+
+/* Semi-Transparent Background in Center Position*/
+#content, article
+{
+	clear: both;
+    background: RGBA(212, 215, 255, 0.95); 
+    height: auto;
+    width: 1000px;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Margin Position*/
+h1, p {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+p {
+	font-size: 20px;
+	font-family:Cambria, Cochin, Georgia, Times, "Times New Roman", serif
+}
+
+#bold {
+	font-weight:bold;
+}
+
+.center_image, #PreviewImage {
+	text-align: center;
+}
+
+figure{
+	float: right; clear: both;
+	margin-right: 2%;
+}
+
+figcaption { 
+	text-align:center
+}
+
+.previewImage {
+	border-color:#336699;
+	border-style:groove;  
+	padding:10px;
+}
+
+/* Only for Link and Resources section as it does not work with navigation bar*/
+a {
+	text-decoration: none;
+	color: Green;
+}

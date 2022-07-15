@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- Original LBE by: Jai Kang 
+   - modified for Lab 13c -->
+<students>
+  <student>
+    <id>12345</id>
+    <person>
+      <lastperson>Bettinger</lastperson>
+      <firstperson>Matthew</firstperson>
+    </person>
+    <courses>
+      <course name="Underwater Basket Weaving" coursenumber="UNDW-333" />
+      <course name="Java for Programmer" coursenumber="ISTE-200" />
+    </courses>
+  </student>
+  <student>
+    <id>12355</id>
+    <person>
+      <lastperson>Collins</lastperson>
+      <firstperson>Andrew</firstperson>
+    </person>
+    <courses>
+      <course name="Underwater Basket Weaving" coursenumber="UNDW-333" />
+      <course name="Java for Programmer" coursenumber="ISTE-200" />
+      <course name="Web 1" coursenumber="ISTE-140" />
+    </courses>
+  </student>
+  <student>
+    <id>12365</id>
+    <person>
+      <lastperson>Robinson</lastperson>
+      <firstperson>Linda</firstperson>
+    </person>
+    <courses>
+      <course name="Programming for the Info. Tech. Domain II" coursenumber="ISTE-121" />
+    </courses>
+  </student>
+</students>

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ISTE340 P2</title>
+
+<!-- CSS -->
+<link href="jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="jquery-ui.css">
+<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+<script src="jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="jquery-ui.js"></script>
+<style>
+body 
+{
+	background-image:url(Yellow_Wallpaper.jpg);
+	height: 100%;
+}
+h1
+{
+	text-align: center;
+}
+</style>
+<!-- JQuery Plugins -->
+ <script>
+$(function() 
+{
+	$("#tabs").tabs();
+});
+
+$(function() 
+{
+	$("input[type=button], input[type=reset]").button();
+});
+  
+$(function() 
+{
+	$( "#dialog" ).dialog(
+	{
+      autoOpen: false,
+	  width: 'auto',
+      show: 
+	  {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: 
+	  {
+		effect: "explode",
+        duration: 1000
+      }
+	});
+});
+ </script>
+<script type="text/javascript">
+	//Build the search functionality.
+	//onload, get the cities for the state.
+	$(document).ready(function()
+	{
+		getCities('NY');
+		getOrgTypes();
+	});
+
+	// Variables - Arrays for holding data (Location and People)
+	var locationArray = new Array();
+	var locationOption = new Array();
+	var peopleArray = new Array();
+	var peopleOption = new Array();
+
+	// Gets the Data
+	function getData(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			async:true,
+			url:'proxy.php',
+			data:{path:'/Application/Tabs?orgId='+id},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					//output that server is down/sucks
+				}
+				else
+				{
+					// Resets data for location and people
+					locationArray.length = 0;
+					locationOption.length = 0;
+					peopleArray.length = 0;
+					peopleOption.length = 0;
+					
+					// Loads the data
+					getGeneral(id);
+                    getLocations(id);
+                    getTreatment(id);
+                    getTraining(id);
+                    getFacilities(id);
+                    getEquipment(id);
+                    getPhysicians(id);
+                    getPeople(id);
+					$("#dialog").dialog("open");
+				}
+			}
+		});
+	}
+	
+	// Gets the data for General
+	function getGeneral(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/General'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					// Gets the data from .../ESD/id/General
+					var x='<table><tr><td>Name:</td><td>'+$(data).find('name').text()+'</td></tr>';
+					x+='<tr><td>Description:</td><td>'+$(data).find('description').text()+'</td></tr>';
+					x+='<tr><td>Email:</td><td>'+$(data).find('email').text()+'</td></tr>';
+					x+='<tr><td>Website:</td><td>'+$(data).find('website').text()+'</td></tr>';
+					x+='<tr><td>Number of members:</td><td>'+$(data).find('nummembers').text()+'</td></tr>';
+					x+='<tr><td>Number of calls:</td><td>'+$(data).find('numcalls').text()+'</td></tr></table>';
+					
+					// Adds to div id (tabs-1)
+					$('#tabs-1').html(x);
+				}
+			}
+		});
+	}
+	
+	// Gets the data for Location
+	function getLocations(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/Locations'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					// Creates select drop-down menu and gets total count found in Location
+					var locationCount = parseInt($(data).find("count").text());
+					var y = '<select id=\"locationSelect\" onchange=\"getLocationsIndex()\">';
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(locationCount >= 1)
+					{
+						$('location',data).each(function()
+						{
+							// Gets the data from .../ESD/id/Location
+							// Creates options and tables then are added to two array list.
+							y+='<option value="'+$(this).find('siteId').text()+'">'+$(this).find('type').text()+' - ' + $(this).find('siteId').text() + '</option>';
+							locationOption.push('<option value="'+$(this).find('siteId').text()+'">'+$(this).find('type').text()+' - ' + $(this).find('siteId').text() + '</option>');
+							var x='<table><tr><td>Type:</td><td>'+$(this).find('type').text()+'</td></tr>';
+							x+='<tr><td>Address:</td><td>'+$(this).find('address1').text()+'</td></tr>';
+							x+='<tr><td>City:</td><td>'+$(this).find('city').text()+'</td></tr>';
+							x+='<tr><td>State:</td><td>'+$(this).find('state').text()+'</td></tr>';
+							x+='<tr><td>Zip:</td><td>'+$(this).find('zip').text()+'</td></tr>';
+							x+='<tr><td>Phone:</td><td>'+$(this).find('phone').text()+'</td></tr>';
+							x+='<tr><td>TTYPhone:</td><td>'+$(this).find('ttyPhone').text()+'</td></tr>';
+							x+='<tr><td>Fax:</td><td>'+$(this).find('fax').text()+'</td></tr>';
+							x+='<tr><td>Latitude:</td><td>'+$(this).find('latitude').text()+'</td></tr>';
+							x+='<tr><td>Longitude:</td><td>'+$(this).find('longitude').text()+'</td></tr></table>';
+							locationArray.push(x);
+						});
+						x = locationArray[0]; // Default
+					}
+					
+					// Adds to div id (tabs-2), based on how many counts in Locations data
+					if(locationCount > 1)
+					{
+						$('#tabs-2').html(y + '</select>' + x);	
+					}
+					else if(locationCount = 1)
+					{
+						$('#tabs-2').html(x);
+					}
+					else
+					{
+						var x = "No data found for Location";
+						$('#tabs-2').html(x);
+					}
+				}
+			}
+		});
+	}
+	
+	// Gets the data from select for Locations
+	function getLocationsIndex()
+	{
+		var y = '<select id=\"locationSelect\" onchange=\"getLocationsIndex()\">';
+		
+		// Gets the data from option selected
+		var numberIndex = document.getElementById("locationSelect").selectedIndex;
+		x = locationArray[document.getElementById("locationSelect").selectedIndex];
+		
+		// Creates select again
+		for(i = 0; i < locationArray.length; i++)
+		{
+			y+=locationOption[i];
+		}
+		
+		// Adds to div id (tabs-2), and sets selects in Location from where the user last selected at
+		$('#tabs-2').html(y + '</select>' + x);
+		document.getElementById("locationSelect").selectedIndex = numberIndex;
+	}
+	
+	// Gets the data for Training
+	function getTraining(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/Training'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					var trainingCount = parseInt($(data).find("count").text());
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(trainingCount >= 1)
+					{
+						// Gets the data from .../ESD/id/Training
+						// Creates the table data for Training
+						var x="<div><table border=\"0\" cellpadding=\"0\" cellspacing=\"1\"><thead><tr><th class=\"header\" style=\"width:450px;\">Type<\/th><th class=\"header\">Abbreviation<\/th><\/tr><\/thead>";
+						$('training',data).each(function()
+						{
+							x+='<tr>';
+							x+="<td>"+$(this).find('type').text()+"<\/td>";
+							x+="<td>"+$(this).find('abbreviation').text()+"<\/td><\/tr>";
+						});
+						x+="<\/table>";
+					}
+					else
+					{
+						var x = "No data found for Training";
+					}
+
+					// Adds to div id (tabs-4)			
+					$('#tabs-4').html(x);
+				}
+			}
+		});
+	}
+	
+	// Gets the data for Treatment
+	function getTreatment(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/Treatments'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					var treatmentCount = parseInt($(data).find("count").text());
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(treatmentCount >= 1)
+					{
+						// Gets the data from .../ESD/id/Treatments
+						// Creates the table data for Treatment				
+						var x="<div><table border=\"0\" cellpadding=\"0\" cellspacing=\"1\"><thead><tr><th class=\"header\" style=\"width:600px;\">Type<\/th><th class=\"header\">Abbreviation<\/th><\/tr><\/thead>";
+						$('treatment',data).each(function()
+						{
+							x+='<tr>';
+       	 					x+="<td>"+$(this).find('type').text()+"<\/td>";
+       	 					x+="<td>"+$(this).find('abbreviation').text()+"<\/td><\/tr>";
+						});
+						x+="<\/table>";
+					}
+					else
+					{
+						var x = "No data found for Treatment";
+					}				
+					
+					// Adds to div id (tabs-3)			
+					$('#tabs-3').html(x);
+				}
+			}
+		});
+	}
+	
+	// Gets the data for Facilities
+	function getFacilities(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/Facilities'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					//do something....
+				}
+				else
+				{
+					var facilitiesCount = parseInt($(data).find("count").text());
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(facilitiesCount >= 1)
+					{
+						// Gets the data from .../ESD/id/Facilities
+						// Creates the table data for Facilities		
+						var x="<div><table border=\"0\" cellpadding=\"0\" cellspacing=\"1\"><thead><tr><th class=\"header\" style=\"width:300px;\">Name<\/th><th class=\"header\" style=\"width:200px;\">Quantity<\/th><th class=\"header\">Description<\/th><\/tr><\/thead>";
+						$('facility',data).each(function()
+						{
+							x+='<tr>';
+							x+="<td>"+$(this).find('type').text()+"<\/td>";
+							x+="<td>"+$(this).find('quantity').text()+"<\/td>";
+							x+="<td>"+$(this).find('description').text()+"<\/td><\/tr>";
+						});
+						x+="<\/table>";
+					}
+					else
+					{
+						var x = "No data found for Facilities";
+					}				
+					
+					// Adds to div id (tabs-5)
+					$('#tabs-5').html(x);
+				}
+			}
+		});
+	}
+	
+	// Gets the data for Equipment
+	function getEquipment(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/Equipment'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					var equipmentCount = parseInt($(data).find("count").text());
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(equipmentCount >= 1)
+					{
+						// Gets the data from .../ESD/id/Equipment
+						// Creates the table data for Equipment	
+						var x="<div><table border=\"0\" cellpadding=\"0\" cellspacing=\"1\"><thead><tr><th class=\"header\" style=\"width:200px;\">Type<\/th><th class=\"header\" style=\"width:200px;\">Quantity<\/th><th class=\"header\" style=\"width:450px;\">Description<\/th><\/tr><\/thead>";
+						$('equipment',data).each(function()
+						{						
+							x+='<tr>';
+							x+="<td>"+$(this).find('type').text()+"<\/td>";
+							x+="<td>"+$(this).find('quantity').text()+"<\/td>";
+							x+="<td>"+$(this).find('description').text()+"<\/td><\/tr>";
+						});
+						x+="<\/table>";
+					}
+					else
+					{
+						var x = "No data found for Equipment";
+					}
+					
+					// Adds to div id (tabs-6)
+					$('#tabs-6').html(x);
+				}
+			}
+		});
+	}
+	
+	// Gets the data for Physicians
+	function getPhysicians(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/Physicians'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					var physiciansCount = parseInt($(data).find("count").text());
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(physiciansCount >= 1)
+					{
+						// Gets the data from .../ESD/id/Physicians
+						// Creates the table data for Physicians
+						var x="<div><table border=\"0\" cellpadding=\"0\" cellspacing=\"1\"><thead><tr><th class=\"header\" style=\"width:300px;\">Name<\/th><th class=\"header\" style=\"width:200px;\">License<\/th><th class=\"header\" style=\"width:200px;\">Contact<\/th><\/tr><\/thead>";
+						$('physician',data).each(function()
+						{
+							x+='<tr>';
+							x+="<td>"+$(this).find('fName').text()+ " " +$(this).find('mName').text()+ " " +$(this).find('lName').text()+"<\/td>";
+							x+="<td>"+$(this).find('license').text()+"<\/td>";
+							x+="<td>"+$(this).find('phone').text()+"<\/td><\/tr>";
+						});
+						x+="<\/table>";
+					}
+					else
+					{
+						var x = "No data found for Physicians";
+					}
+					
+					// Adds to div id (tabs-7)
+					$('#tabs-7').html(x);
+				}
+			}
+		});
+	}
+	
+	// Gets the data for People
+	function getPeople(id)
+	{
+		$.ajax(
+		{
+			type:'get',
+			url:'proxy.php',
+			data:{path:'/'+id+'/People'},
+			dataType:'xml',
+			success:function(data)
+			{
+				if($(data).find('error').length!=0)
+				{
+					// Do something....
+				}
+				else
+				{
+					// Creates select drop-down menu and gets total count found in People for sites
+					var siteCount = parseInt($(data).find("siteCount").text());
+					var y = '<select id=\"peopleSelect\" onchange=\"getPeopleIndex()\">';
+					
+					// Checks if the count is 1 or higher, else returns an output for no data found.
+					if(siteCount >= 1)
+					{
+						$('site',data).each(function()
+						{
+							var peopleCount = parseInt($(this).find("personCount").text());
+							
+							// Creates options and tables then are added to two array list.
+							var x="<div><table border=\"0\" cellpadding=\"0\" cellspacing=\"1\"><thead><tr><th class=\"header\" style=\"width:300px;\">Name<\/th><th class=\"header\" style=\"width:200px;\">Role<\/th><\/tr><\/thead>";
+							y+='<option value="'+$(this).attr('siteId')+'">'+$(this).attr('address') +' - ' + $(this).attr('siteId') + '</option>'; 
+							peopleOption.push('<option value="'+$(this).attr('siteId')+'">'+$(this).attr('address') +' - ' + $(this).attr('siteId') + '</option>');
+							
+							// Checks if there is people, else return the output for no people found for specific location.
+							if(peopleCount >= 1)
+							{
+								$('person', this).each(function()
+								{
+									// Gets the data from .../ESD/id/People
+									// Creates the table data for People
+									x+='<tr>';
+									x+="<td>"+$(this).find('honorific').text()+ " " +$(this).find('fName').text()+ " " +$(this).find('lName').text()+"<\/td>";
+									x+="<td>"+$(this).find('role').text()+"<\/td><\/tr>";
+								});
+								x+="<\/table>";
+							}
+							else
+							{
+								var x = "<br></br>";
+								x+= "No people found for this location";
+							}
+							peopleArray.push(x);
+						});
+						x = peopleArray[0]; // Default
+					}
+					
+					// Adds to div id (tabs-8), based on how many site counts in People data
+					if(siteCount > 1)
+					{
+						$('#tabs-8').html(y + '</select>' + x);	
+					}
+					else if(siteCount = 1)
+					{
+						$('#tabs-8').html(x);
+					}			
+					else
+					{
+						var x = "No data found for People";
+						$('#tabs-8').html(x);
+					}			
+				}
+			}
+		});
+	}
+
+	// Gets the data from select for People
+	function getPeopleIndex()
+	{
+		var y = '<select id=\"peopleSelect\" onchange=\"getPeopleIndex()\">';
+		
+		// Gets the data from option selected
+		var numberIndex = document.getElementById("peopleSelect").selectedIndex;
+		x = peopleArray[document.getElementById("peopleSelect").selectedIndex];
+		
+		// Creates select again
+		for(i = 0; i < peopleArray.length; i++)
+		{
+			y+=peopleOption[i];
+		}
+		
+		// Adds to div id (tabs-8), and sets selects in People from where the user last selected at
+		$('#tabs-8').html(y + '</select>' + x);
+		document.getElementById("peopleSelect").selectedIndex = numberIndex;
+	}	
+	
+	//This function is called when user changes the state select (and onload)
+    function getCities(which)
+	{
+    	if(which == '')
+		{
+    		$('#orgCitySearch').html('City/Town<input id="cityTown" type="text"/>');
+    	}
+		else
+		{
+    		$.ajax(
+			{
+  				type: "GET",
+  				async: true,
+  				cache:false,
+  				url: "proxy.php",
+  				data: {path: "/Cities?state="+which},  
+  				dataType: "xml",
+  				success: function(data, status)
+				{ 
+       	 			var x='';
+       	 			if($(data).find('error').length != 0)
+					{
+	       	 			// Do nothing?
+       	 			}
+					else if($(data).find('row').length==0 && which != '')
+					{
+       	 				$('#orgCitySearch').html('City/Town<input id="cityTown" type="text" value="No cities/Towns in "'+which+'"/>');
+       	 			}
+					else
+					{
+       	 				x+='<select id="cityTown" name="town"><option value="">--cities--<\/option>';
+       	 				$('row',data).each(function()
+						{
+       	 						x+='<option value="'+$(this).find('city').text()+'">'+$(this).find('city').text()+'<\/option>';
+       	 				});
+       	 				x+="<\/select>";
+       	 				$('#orgCitySearch').html(x);
+       	 			}
+		   		}
+			});
+		}
+    }
+	
+	// Gets Organization Types
+	function getOrgTypes()
+	{
+    	$.ajax(
+		{
+  			type: "GET",
+  			async: true,
+  			cache:false,
+  			url: "proxy.php",
+  			data: {path: "/OrgTypes"},  
+  			dataType: "xml",
+  			success: function(data, status)
+			{ 
+       	 		var x='';
+       	 		if($(data).find('error').length != 0)
+				{
+	       	 		// Do nothing?
+       	 		}
+				else
+				{
+       	 			x+='<option value="">All Organization Types<\/option>';
+       	 			$('row',data).each(function()
+					{
+						x+='<option value="'+$(this).find('type').text()+'">'+$(this).find('type').text()+'<\/option>';
+       	 			});
+       	 			// Return x;
+       	 			$("#orgType").html(x);
+       	 		}
+		   	}
+		});
+    }
+	
+	//Do a search, so when an org is clicked it will create the select and getGeneral().
+	function checkSearch()
+	{
+			$.ajax(
+			{
+  				type: "GET",
+  				async: true,
+  				cache:false,
+  				url: "proxy.php",
+  				data: {path: "/Organizations?"+$('#Form1').serialize()},
+  				dataType: "xml",
+  				success: function(data, status)
+				{ 
+  					var x='';
+       	 			$('#tableOutput').html('');
+       	 			if($(data).find('error').length != 0)
+					{
+	       	 			$('error', data).each(function()
+						{
+       		 				x+= "Error getting data."; 
+       	 				});
+       	 			}
+					else if($(data).find('row').length==0)
+					{
+       	 				x+="No data matches for: "+$('#orgType').val() + (($('#orgName').val()!='')?" > name: "+$('#orgName').val():"") + (($('#state').val()!='')?" > State: "+$('state').val():"");
+       	 				if($('#cityTown').val()=='' || $('#cityTown').val().search(/No cities/)==0)
+						{
+       	 					x+="";
+       	 				}
+						else
+						{
+       	 					x+=" > City: "+$('#cityTown').val();
+       	 				}
+       	 			/**********/
+       	 			//This is for a Physician - it will be different data coming back
+       	 			}
+					else if($("#orgType").val() == "Physician")
+					{
+       	 				$("#resultsTitle").html(' ('+$(data).find('row').length+' total found)');
+       	 				// Build a table of Physician information
+					/**********/
+       	 			}
+					else
+					{
+       	 				$("#resultsTitle").html(' ('+$(data).find('row').length+' total found)');
+       	 				x+="<div><table id=\"myTable\" class=\"display\"><thead><tr><th class=\"header\" style=\"width:90px;\">Type<\/th><th class=\"header\">Name<\/th><th class=\"header\">City<\/th><th class=\"header\">Zip<\/th><th class=\"header\" style=\"width:70px;\">County<\/th><th class=\"header\" style=\"width:40px;\">State<\/th><\/tr><\/thead>";
+       	 				$('row',data).each(function()
+						{
+       	 					x+='<tr>';
+       						x+="<td>"+$(this).find('type').text()+"<\/td>";
+        					x+="<td style=\"cursor:pointer;color:#987;\" onclick=\"getData("+$(this).find('OrganizationID').text()+");\">"+$(this).find('Name').text()+"<\/td>";
+       	 					x+="<td>"+$(this).find('city').text()+"<\/td>";
+       	 					x+="<td>"+$(this).find('zip').text()+"<\/td>";
+       	 					x+="<td>"+$(this).find('CountyName').text()+"<\/td>";
+       	 					x+="<td>"+$(this).find('State').text()+"<\/td><\/tr>";
+       	 				});
+       	 				x+="<\/table>";
+       	 			}
+		     		$('#tableOutput').html(x);
+					$('#myTable').DataTable(); // JQuery Plug-in for DataTables
+		   		}
+			});
+		}
+	
+	//Occasionally we will get back 'null' as a value
+	//you should NEVER show 'null' in the client - make it blank...
+	function myFind(what,data,i)
+	{
+		if(i!=-1)
+		{
+			return (($(data).find(what).eq(i).text()!='null')?$(data).find(what).eq(i).text()+' ':'')
+		}
+		else
+		{
+			return (($(data).find(what).text()!='null')?$(data).find(what).text()+' ':'')
+		}
+	}
+    </script>
+  </head>
+
+  <body>
+
+  <h1>Organization Search</h1><!--
+  	Input org Id:
+  	<input type="text" id="orgId" /><input type="button" value="find data" onclick="getDetail($('#orgId').val());getGeneral()"/>-->
+  		<div id="dump"></div>
+  		<table id="output"></table>
+  	<hr/> 
+	
+<!--Tabs and Dialog-->
+<div id="dialog" title="ESD Search">
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">General</a></li>
+		<li><a href="#tabs-2">Locations</a></li>
+		<li><a href="#tabs-3">Treatment</a></li>
+		<li><a href="#tabs-4">Training</a></li>
+		<li><a href="#tabs-5">Facilities</a></li>
+		<li><a href="#tabs-6">Equipment</a></li>
+		<li><a href="#tabs-7">Physicians</a></li>
+		<li><a href="#tabs-8">People</a></li>
+	</ul>
+	<div id="tabs-1">
+	
+    </div>
+	<div id="tabs-2">
+	
+	</div>
+	<div id="tabs-3">
+	
+	</div>
+	<div id="tabs-4">
+	
+	</div>
+	<div id="tabs-5">
+	
+	</div>
+	<div id="tabs-6">
+	
+	</div>
+	<div id="tabs-7">
+	
+	</div>
+	<div id="tabs-8">
+	
+	</div>		
+</div>
+  </div>
+  	<form  method="post" action="" id="Form1">
+<fieldset><legend>Search Criteria</legend>
+<p>
+
+Organization Type
+<select id="orgType" name="type" onchange="(this.value=='Physician')?$('#orgLabel').html('Physician\'s Name'):$('#orgLabel').html('Organization Name')">
+
+</select>
+</p>
+
+<p>
+<span id="orgLabel">Organization Name</span>
+<input id="orgName" name="name" type="text"><em style="color: rgb(104, 129, 162);"> *can be partial - "vol" for "Volunteer"</em></p>
+State
+<select id="state" name="state" onchange="getCities(this.value)">
+		<option value="">All States</option>
+		<option value="AK">AK</option>
+
+		<option value="AL">AL</option>
+		<option value="AR">AR</option>
+		<option value="AZ">AZ</option>
+		<option value="CA">CA</option>
+		<option value="CO">CO</option>
+		<option value="CT">CT</option>
+
+		<option value="DC">DC</option>
+		<option value="DE">DE</option>
+		<option value="FL">FL</option>
+		<option value="GA">GA</option>
+		<option value="HI">HI</option>
+		<option value="IA">IA</option>
+
+		<option value="ID">ID</option>
+		<option value="IL">IL</option>
+		<option value="IN">IN</option>
+		<option value="KS">KS</option>
+		<option value="KY">KY</option>
+		<option value="LA">LA</option>
+
+		<option value="MA">MA</option>
+		<option value="MD">MD</option>
+		<option value="ME">ME</option>
+		<option value="MI">MI</option>
+		<option value="MN">MN</option>
+		<option value="MO">MO</option>
+
+		<option value="MS">MS</option>
+		<option value="MT">MT</option>
+		<option value="NC">NC</option>
+		<option value="ND">ND</option>
+		<option value="NE">NE</option>
+		<option value="NH">NH</option>
+
+		<option value="NJ">NJ</option>
+		<option value="NM">NM</option>
+		<option value="NV">NV</option>
+		<option value="NY" selected="selected">NY</option>
+		<option value="OH">OH</option>
+		<option value="OK">OK</option>
+
+		<option value="OR">OR</option>
+		<option value="PA">PA</option>
+		<option value="RI">RI</option>
+		<option value="SC">SC</option>
+		<option value="SD">SD</option>
+		<option value="TN">TN</option>
+
+		<option value="TX">TX</option>
+		<option value="UT">UT</option>
+		<option value="VA">VA</option>
+		<option value="VT">VT</option>
+		<option value="WA">WA</option>
+		<option value="WI">WI</option>
+
+		<option value="WV">WV</option>
+		<option value="WY">WY</option>
+
+	</select>
+<span id="orgCitySearch">
+</span>
+<p>
+County
+<input id="county" type="text"/>
+</p><p>
+ZIP Code
+<input id="zip" type="text" name="zip"/></p>
+<div style="margin:0 0 0 210px"><input value="Show Results" onclick="checkSearch()" id="btnSearch" class="button" type="button"/>&nbsp;<input type="reset" class="button" value="Reset Form" onclick="resetAll()"/>
+</div>
+</fieldset>
+</form>
+  	
+	<div id="tableOutput"></div>
+  </body>
+</html>

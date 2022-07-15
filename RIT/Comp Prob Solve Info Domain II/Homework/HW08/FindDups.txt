@@ -1,0 +1,7 @@
+0	0 12/10/14 12:48:49 PM C:\Users\Chevy\Desktop\TestFolder\Test.txt
+0	0 12/10/14 12:49:24 PM C:\Users\Chevy\Desktop\TestFolder\TestFolder1\InsideFolder.txt
+0	0 12/10/14 12:50:14 PM C:\Users\Chevy\Desktop\TestFolder\TestFolder2\SSS.bmp
+
+A23EAFEE	1182 12/09/14 09:47:33 PM C:\Users\Chevy\Desktop\TestFolder\22321.lnk
+A23EAFEE	1182 12/09/14 09:47:33 PM C:\Users\Chevy\Desktop\TestFolder\Mabinogi .lnk
+

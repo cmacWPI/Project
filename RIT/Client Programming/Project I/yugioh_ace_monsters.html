@@ -1,0 +1,984 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Yu-Gi-Oh! Ace Monsters</title>
+
+	<link href="project1.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="cookies.js"></script>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<script>
+		var browserCheck = true;
+	</script>
+	
+	<!--[if lt IE 9]>
+	<script>
+		// If Internet Browser's version is 9 or below, sets to false.
+		browserCheck = false;
+	</script>
+	<![endif]-->	
+	<script>
+	
+	// Document Variables
+	var container;
+	var jumbotron;
+	var header1;
+	var header1Text;
+	var result;
+	var objSelect2;
+	var objSelect3;
+	var storageResult;
+	var firstData;
+	var secondData;
+	var thirdData;
+	var monsterData;
+	var checkData;
+	var modeNum = 0;
+	var index = 0;
+	var objH2;
+	var objH3;
+	var image;
+	var buttonResult;
+	var buttonReject;
+	var lineBreak = document.createElement("br"); // Create a line break
+	var removeCheck = false;
+	var modeCheck = false;
+	var check = true;
+	var storage = false;
+	var checkSelect = false;
+	var formCheck = false;
+	
+	// Form Variables
+	var fName;
+	var lName;
+	var eAddress;
+	
+	// Arrays
+	var arraySeries = new Array();
+	arraySeries = new Array("Yu-Gi-Oh! Series", "Duel Monsters", "GX", "5D's", "ZeXaL", "Arc-V");
+
+	var characterSeries = new Array();
+	var character = new Array();
+	characterSeries[0] = new Array("Character", "Yugi Mutou", "Jonouchi Katsuya", "Kaiba Seto"); // Duel Monsters
+	characterSeries[1] = new Array("Character", "Judai Yuki", "Jun Manjoume", "Ryo Marufuji"); // GX
+	characterSeries[2] = new Array("Character", "Yusei Fudo", "Jack Atlas", "Aki Izayoi", "Crow Hogan", "Rua", "Ruka", "Demak", "Bomber", "Kyosuke Kiryu", "Carly Nagisa", "Misty Lola", "Rudger Goodwin", "Rex Goodwin", "Lucciano", "Placido", "Jose", "Aporia", "ZONE"); // 5D's
+	characterSeries[3] = new Array("Character", "Yuma Tsukumo", "Ryoga Kamishiro", "Kaito Tenjo", "Michael Arclight", "Thomas Arclight", "Christopher Arclight", "Nasch", "Durbe", "Merag", "Vector", "Arito", "Gilag", "Mizael", "Don Thousand"); // ZeXaL
+	characterSeries[4] = new Array("Character", "Yuya Sakai", "Yuzu Hiragi", "Noboru Gongenzaka", "Shun Kurosaki", "Yuto", "Yugo"); // Arc-V
+	
+	var monsterSeries = new Array();
+	monsterSeries[0] = new Array("Dark Magician", "Red-Eyes Black Dragon", "Blue-Eyes White Dragon"); // Duel Monsters
+	monsterSeries[1] = new Array("Elemental HERO Neos", "Ojama Yellow", "Cyber End Dragon"); // GX
+	monsterSeries[2] = new Array("Stardust Dragon", "Red Demon's Dragon", "Black Rose Dragon", "Black Feather Dragon", "Life Stream Dragon", "Ancient Fairy Dragon", "Earthbound God Cusillu", "Earthbound God Chacu Challhua", "Earthbound God Ccapac Apu", "Earthbound God Aslla piscu", "Earthbound God Ccarayhua", "Earthbound God Uru", "Earthbound God Wiraqocha Rasca", "Machine Emperor Skiel ∞", "Machine Emperor Wisel ∞", "Machine Emperor Granel ∞", "Machine Imperial God Machinicle ∞³", "Ultimate Temporal Machine God Sephiron"); // 5D's
+	monsterSeries[3] = new Array("Bloom Diva the Floral Melodious Saint", "Superheavy Koujin Susano-O", "Raid Raptors - Rise Falcon", "Dark Rebellion Xyz Dragon", "Clear Wing Synchro Dragon");
+	
+	var monsterPic = new Array();
+	monsterPic[0] = new Array("DarkMagician-JP-Anime-5D", "RedEyesBDragon-15AX-JP-ScR", "BlueEyesWhiteDragon-JP-Anime-5D"); // Duel Monsters
+	monsterPic[1] = new Array("ElementalHERONeos-SD27-JP-C", "OjamaYellow-JP-Anime-GX", "CyberEndDragon-JP-Anime-GX"); // GX
+	monsterPic[2] = new Array("StardustDragon-JP-Anime-5D", "RedDragonArchfiend-JP-Anime-5D", "BlackRoseDragon-JP-Anime-5D", "BlackWingedDragon-JP-Anime-ZX", "LifeStreamDragon-JP-Anime-5D", "AncientFairyDragon-JP-Anime-5D", "EarthboundImmortalCusillu-JP-Anime-5D", "EarthboundImmortalChacuChallhua-JP-Anime-5D", "EarthboundImmortalCcapacApu-JP-Anime-5D", "EarthboundImmortalAsllapiscu-JP-Anime-5D", "EarthboundImmortalCcarayhua-JP-Anime-5D", "EarthboundImmortalUru-JP-Anime-5D", "EarthboundImmortalWiraqochaRasca-JP-Anime-5D", "MeklordEmperorSkiel-JP-Anime-5D", "MeklordEmperorWisel-JP-Anime-5D", "MeklordEmperorGranel-JP-Anime-5D", "MeklordAstroMekanikle-JP-Anime-5D", "SephylontheUltimateTimelord-JP-Anime-5D"); // 5D's
+	monsterPic[3] = new Array("BloomDivatheMelodiousMuse-JP-Anime-AV", "SuperheavySamuraiWarlordSusanowo-JP-Anime-AV", "RaidraptorRiseFalcon-JP-Anime-AV", "DarkRebellionXyzDragon-JP-Anime-AV", "ClearWingSynchroDragon-JP-Anime-AV");
+	
+	// ZeXaL - Yuma
+	var yumaSeries = new Array();
+	yumaSeries = new Array("Number 39: Hope", "Chaos Number 39: Hope Ray Victory", "Future Number 0: Hope");	
+	
+	var yumaPic = new Array();
+	yumaPic = new Array("Number39Utopia-JP-Anime-ZX", "NumberC39UtopiaRayVictory-JP-Anime-ZX", "NumberF0UtopicFuture-JP-Anime-ZX");
+
+	// ZeXaL - Ryoga (Shark)
+	var ryogaSeries = new Array();
+	ryogaSeries = new Array("Number 32: Shark Drake", "Chaos Number 32: Shark Drake Veiss");	
+	
+	var ryogaPic = new Array();
+	ryogaPic = new Array("Number32SharkDrake-JP-Anime-ZX", "NumberC32SharkDrakeVeiss-JP-Anime-ZX");
+
+	// ZeXaL - Kaito
+	var kaitoSeries = new Array();
+	kaitoSeries = new Array("Galaxy-Eyes Photon Dragon", "Neo Galaxy-Eyes Photon Dragon", "Number 62: Galaxy-Eyes Prime Photon Dragon");	
+	
+	var kaitoPic = new Array();
+	kaitoPic = new Array("GalaxyEyesPhotonDragon-JP-Anime-ZX", "NeoGalaxyEyesPhotonDragon-JP-Anime-AV", "Number62GalaxyEyesPrimePhotonDragon-JP-Anime-ZX");
+
+	// ZeXaL - Thomas
+	var thomasSeries = new Array();
+	thomasSeries = new Array("Number 88: Gimmick Puppet - Destiny Leo", "Chaos Number 88: Gimmick Puppet - Disaster Leo");	
+	
+	var thomasPic = new Array();
+	thomasPic = new Array("Number88GimmickPuppetofLeo-VB15-JP-OP", "NumberC88GimmickPuppetDisasterLeo-PP16-JP-C");
+
+	// ZeXaL - Michael
+	var michaelSeries = new Array();
+	michaelSeries = new Array("Number 6: OOPArts - Atlantal", "Chaos Number 6: OOPArts - Chaos Atlantal");	
+	
+	var michaelPic = new Array();
+	michaelPic = new Array("Number6ChronomalyAtlandis-JP-Anime-ZX", "NumberC6ChronomalyChaosAtlandis-JP-Anime-ZX");
+
+	// ZeXaL - Christopher
+	var christopherSeries = new Array();
+	christopherSeries = new Array("Number 9: Canopy Star - Dyson Sphere", "Chaos Number 9: Spectral Canopy Star - Chaos Dyson Sphere");	
+	
+	var christopherPic = new Array();
+	christopherPic = new Array("Number9DysonSphere-JP-Anime-ZX", "NumberC9ChaosDysonSphere-JP-Anime-ZX");
+
+	// ZeXaL - Nasch
+	var naschSeries = new Array();
+	naschSeries = new Array("Number 101: Slient Honors Ark Knight", "Chaos Number 101: Slient Honors Dark Knight", "Chaos Xyz: King of Hope, Barian");	
+	
+	var naschPic = new Array();
+	naschPic = new Array("Number101SilentHonorARK-JP-Anime-ZX", "NumberC101SilentHonorDARK-JP-Anime-ZX", "CXyzBarianHope-JP-Anime-ZX");
+
+	// ZeXaL - Durbe
+	var durbeSeries = new Array();
+	durbeSeries = new Array("Number 102: Holy Lightning - Glorious Halo", "Chaos Number 102: Unholy Lightning - Noble Daemon");	
+	
+	var durbePic = new Array();
+	durbePic = new Array("Number102StarSeraphSentry-JP-Anime-ZX", "NumberC102ArchfiendSeraph-JP-Anime-ZX");
+
+	// ZeXaL - Merag
+	var meragSeries = new Array();
+	meragSeries = new Array("Number 103: Ragna Zero, the Funerary Sub-Zero Maiden", "Chaos Number 103: Ragna Infinity, the Funerary Sub-Zero Maiden");	
+	
+	var meragPic = new Array();
+	meragPic = new Array("Number103Ragnazero-JP-Anime-ZX", "NumberC103Ragnafinity-JP-Anime-ZX");
+
+	// ZeXaL - Vector
+	var vectorSeries = new Array();
+	vectorSeries = new Array("Number 104: Masquerade Magician - Shining", "Chaos Number 104: Masquerade Magician - Umbral", "Chaos Number 5: Chaos Chimera Dragon");	
+	
+	var vectorPic = new Array();
+	vectorPic = new Array("Number104Masquerade-JP-Anime-ZX", "NumberC104UmbralHorrorMasquerade-JP-Anime-ZX", "NumberC5ChaosChimeraDragon-JP-Anime-ZX");
+
+	// ZeXaL - Arito
+	var aritoSeries = new Array();
+	aritoSeries = new Array("Number 105: Burning Knuckler - Cestus the Meteor", "Chaos Number 105: Burning Knuckler - Caestus the Comet");	
+	
+	var aritoPic = new Array();
+	aritoPic = new Array("Number105BattlinBoxerStarCestus-JP-Anime-ZX", "NumberC105BattlinBoxerCometCestus-JP-Anime-ZX");
+
+	// ZeXaL - Gilag
+	var gilagSeries = new Array();
+	gilagSeries = new Array("Number 106: Giant Hand", "Chaos Number 106: Giant Red Hand");	
+	
+	var gilagPic = new Array();
+	gilagPic = new Array("Number106GiantHand-CPL1-JP-SR", "NumberC106GiantRedHand-JP-Anime-ZX");
+	
+	// ZeXaL - Mizael
+	var mizaelSeries = new Array();
+	mizaelSeries = new Array("Number 107: Galaxy-Eyes Tachyon Dragon", "Chaos Number 107: Neo Galaxy-Eyes Tachyon Dragon");	
+	
+	var mizaelPic = new Array();
+	mizaelPic = new Array("Number107GalaxyEyesTachyonDragon-JP-Anime-ZX", "NumberC107NeoGalaxyEyesTachyonDragon-JP-Anime-ZX");
+
+	// ZeXaL - Don Thousand
+	var donthousandSeries = new Array();
+	donthousandSeries = new Array("Chaos Number 1000: Hollow Titan of Fantasy - Numerronius ", "Chaos Imaginary Number 1000: Brilliant Hollow Titan of Fantasy - Numerronius Numerronia ");	
+	
+	var donthousandPic = new Array();
+	donthousandPic = new Array("NumberC1000Numerronius-JP-Anime-ZX", "NumberiC1000NumerroniusNumerronia-JP-Anime-ZX");
+
+	// Arc-V - Yuya
+	var yuyaSeries = new Array();
+	yuyaSeries = new Array("Odd-Eyes Pendulum Dragon", "Odd-Eyes Rebellion Dragon");
+
+	var yuyaPic = new Array();
+	yuyaPic = new Array("OddEyesPendulumDragon-JP-Anime-AV", "OddEyesRebellionDragon-JP-Anime-AV");
+
+	// Mode Type - Only ZeXaL / Arc-V (Yuya only)
+	var modeSeries = new Array();
+	var mode = new Array();
+	modeSeries[0] = new Array("Mode", "Normal", "Chaos");
+	modeSeries[1] = new Array("Mode", "Normal", "Chaos", "Final");
+	modeSeries[2] = new Array("Mode", "Normal", "Barian", "Final");
+	modeSeries[3] = new Array("Mode", "Normal", "Final");
+	modeSeries[4] = new Array("Mode", "Normal", "Xyz Form");
+
+	// Start creating pages dynamically and start up select, redirect broweser if not supported.
+	function init()
+	{
+		if(typeof(Storage) == "undefined") 
+		{
+			browserCheck = false;
+		}
+		if(browserCheck)
+		{
+			// Add container with element div to document <body> as class "container"
+			container = document.createElement("div");
+			container.setAttribute("class", "container");
+			document.body.appendChild(container);
+			
+			// Add jumbotron with element div to container <div> as class "jumbotron"
+			jumbotron = document.createElement("div");
+			jumbotron.setAttribute("class", "jumbotron");
+			container.appendChild(jumbotron);
+
+			// Add header and title with element h1 to jumbotron <div>
+			header1 = document.createElement("h1");
+			header1Text = document.createTextNode("Yu-Gi-Oh! Character's Ace Monster");
+			header1.appendChild(header1Text);
+			jumbotron.appendChild(header1);
+			
+			// Create "result" with element div to store results
+			result = document.createElement("div");
+			result.setAttribute("class", "jumbotron");
+			
+			// Create H2/H3 Text with element "h2/h3" for displaying text
+			objH2 = document.createElement("h2");
+			objH3 = document.createElement("h3");
+			
+			// Create image with element "img" for displaying image after selection is done.
+			image = document.createElement("img");
+			
+			// Create "storageResult" with element div to store results using localStorage
+			storageResult = document.createElement("div");
+			
+			// Create button with DHTML in it and will appear when no more left to select
+			buttonResult = document.createElement("button");
+			buttonResult.setAttribute("onclick","buttonClicked()");
+			buttonResult.setAttribute("class", "btn btn-default");
+			buttonResult.setAttribute("onmouseover", "this.style.backgroundColor='green';this.style.cursor='pointer'");
+			buttonResult.setAttribute("onmouseout", "this.style.backgroundColor=''");
+			var buttonText1 = document.createTextNode("Confirm");
+
+			buttonReject = document.createElement("button");
+			buttonReject.setAttribute("onclick","rejectClicked()");
+			buttonReject.setAttribute("class", "btn btn-default");
+			buttonReject.setAttribute("onmouseover", "this.style.backgroundColor='red';this.style.cursor='pointer'");
+			buttonReject.setAttribute("onmouseout", "this.style.backgroundColor=''");
+			var buttonText2 = document.createTextNode("Reject");
+
+			// Adds button to buttonResult
+			buttonResult.appendChild(buttonText1);
+			buttonReject.appendChild(buttonText2);
+			
+			// Create select and start everything from there
+			select();
+		}
+		else
+		{
+			window.location.href = "outdated_browser.html";
+		}
+	}
+
+	// Function for objSelects
+	function objSelectCreate()
+	{
+		objSelect2 = document.createElement("select");
+		objSelect2.setAttribute("class", "col-sm-4");
+		objSelect2.setAttribute("onchange", "choiceSelect(this)");
+		objSelect3 = document.createElement("select");
+		objSelect3.setAttribute("class", "col-sm-4");
+		objSelect3.setAttribute("onchange", "choiceSelect(this)");
+	}
+	
+	// After first selection is made
+	function addCharacter()
+	{
+		var characterCount = 0;
+		while(characterCount < character.length)
+		{
+			var objOption = document.createElement("option");
+			objOption.setAttribute("class", "form-control");
+			objOption.setAttribute("value", character[characterCount]);
+			objOption.appendChild(document.createTextNode(character[characterCount]));
+			objSelect2.appendChild(objOption);
+			characterCount++;
+		}	
+		jumbotron.appendChild(objSelect2);
+		index++;
+	}
+	
+	// Only if third selection is going to be made.
+	function addMode()
+	{
+		var modeCount = 0;
+		while(modeCount < mode.length)
+		{
+			var objOption = document.createElement("option");
+			objOption.setAttribute("class", "form-control");
+			objOption.setAttribute("value", mode[modeCount]);
+			objOption.appendChild(document.createTextNode(mode[modeCount]));
+			objSelect3.appendChild(objOption);
+			modeCount++;
+		}	
+		jumbotron.appendChild(objSelect3);
+		index++;
+	}
+	
+	// Starts localStorage and is replaced if necessary
+	function startStorage()
+	{
+		if(storage)
+		{
+			// Create Local Storage and set it.
+			localStorage.setItem("series", firstData);
+			localStorage.setItem("character", secondData);
+			localStorage.setItem("mode", thirdData);
+			localStorage.setItem("monster", monsterData);
+			
+			//H5 Objects
+			var seriesH5 = document.createElement("h5");
+			var characterH5 = document.createElement("h5");
+			var modeH5 = document.createElement("h5");
+			var monsterH5 = document.createElement("h5");
+			
+			// Checks if localStorage have data, removes all of it, else it creates H3 text.
+			if(checkSelect)
+			{
+				while(storageResult.hasChildNodes())
+				{
+					storageResult.removeChild(storageResult.childNodes[0]);
+				}
+			}
+			else if(!checkSelect)
+			{
+				var h3Text = document.createTextNode("Here are data you selected. Use this data?");
+				objH3.appendChild(h3Text);
+  			}
+			var data1 = document.createTextNode("Series: " + localStorage.getItem("series"));
+			seriesH5.appendChild(data1);
+
+  			var data2 = document.createTextNode("Character Name: " + localStorage.getItem("character"));
+			characterH5.appendChild(data2);
+			if(modeCheck)
+			{
+				var data3 = document.createTextNode("Mode: " + localStorage.getItem("mode"));
+   				modeH5.appendChild(data3);
+   			}
+			var data4 = document.createTextNode("Monster: " + localStorage.getItem("monster"));
+			monsterH5.appendChild(data4);
+			
+			// Append all of data.
+			storageResult.appendChild(objH3);
+			storageResult.appendChild(seriesH5);
+			storageResult.appendChild(characterH5);
+			if(modeCheck)
+			{
+				storageResult.appendChild(modeH5);
+			}
+			storageResult.appendChild(monsterH5);
+   			result.appendChild(storageResult);
+			result.appendChild(buttonResult);
+			result.appendChild(buttonReject);
+		}	
+	}
+	
+	// For replacing text and image along with localStorage if select was changed in same index.
+	function replace(textH2)
+	{
+		var h2Replace = document.createElement("h2");
+		var h2TextReplace = textH2;
+		h2Replace.appendChild(h2TextReplace);
+		result.replaceChild(h2Replace, result.childNodes[0]);
+		var imageReplace = image;
+		result.replaceChild(imageReplace, result.childNodes[2]);
+		checkSelect = true;
+		startStorage();
+	}
+	
+	// To display results after select is done
+	function appendResult(objH2, image)
+	{
+		result.appendChild(objH2);
+		result.appendChild(lineBreak);
+		result.appendChild(image);
+		container.appendChild(result);
+		check = false;
+		storage = true;
+		startStorage();
+	}
+	
+	// Creates form after confirm button is clicked
+	function createForm()
+	{
+		var form = document.createElement("form");
+		form.setAttribute("name","Yu-Gi-Oh!");
+		form.setAttribute("onsubmit","return validateForm()");
+		
+		var fnForm = document.createElement("div");
+		fnForm.setAttribute("class","form-group");
+		
+		var fnLabel = document.createElement("label");
+		fnLabel.setAttribute("for", "fnInput");
+		
+		var fnLabelText = document.createTextNode("First Name: ");
+		fnLabel.appendChild(fnLabelText);
+		fnForm.appendChild(fnLabel);
+		
+		// Create first name form value
+		var fn = document.createElement("input");
+		fn.setAttribute("type","text");
+		fn.setAttribute("class","form-control");
+		fn.setAttribute("name","FirstName");
+		fn.setAttribute("id","fnInput");
+		fn.setAttribute("placeholder","Enter your first name");	
+		fnForm.appendChild(fn);
+
+		var lnForm = document.createElement("div");
+		lnForm.setAttribute("class","form-group");
+
+		var lnLabel = document.createElement("label");
+		lnLabel.setAttribute("for", "lnInput");
+		
+		var lnLabelText = document.createTextNode("Last Name: ");
+		lnLabel.appendChild(lnLabelText);
+		lnForm.appendChild(lnLabel);
+		
+		// Create last name form value
+		var ln = document.createElement("input");
+		ln.setAttribute("type","text");
+		ln.setAttribute("class","form-control");
+		ln.setAttribute("name","LastName");
+		ln.setAttribute("id","lnInput");
+		ln.setAttribute("placeholder","Enter your last name");
+		lnForm.appendChild(ln);
+
+		var emailForm = document.createElement("div");
+		emailForm.setAttribute("class","form-group");
+
+		var emailLabel = document.createElement("label");
+		emailLabel.setAttribute("for", "emailInput");
+		
+		var emailLabelText = document.createTextNode("Email Address: ");
+		emailLabel.appendChild(emailLabelText);
+		emailForm.appendChild(emailLabel);
+		
+		// Create email form value
+		var email = document.createElement("input");
+		email.setAttribute("type","text");
+		email.setAttribute("class","form-control");
+		email.setAttribute("name","EmailAddress");
+		email.setAttribute("id","emailInput");
+		email.setAttribute("placeholder","Enter your email address");
+		emailForm.appendChild(email);
+
+		// Create submit button
+		var submit = document.createElement("input");
+		submit.setAttribute("type","submit");
+		submit.setAttribute("name","submit");
+		submit.setAttribute("value","Submit");
+		submit.setAttribute("class","btn btn-default");
+		submit.setAttribute("onmouseover", "this.style.backgroundColor='green';this.style.cursor='pointer'");
+		submit.setAttribute("onmouseout", "this.style.backgroundColor=''");
+
+		// Appending form values to form
+		form.appendChild(fnForm);
+		form.appendChild(lnForm);
+		form.appendChild(emailForm);
+		form.appendChild(submit);
+		
+		result.appendChild(form);
+	}
+	
+	// Checks if the input is valid or not
+	function validateForm()
+	{
+		fName = document.forms["Yu-Gi-Oh!"]["FirstName"].value;
+		if (fName==null || fName=="")
+	  	{
+	  		alert("First Name must be filled out.");
+	  		return false;
+	  	}
+	  	else if(fName.length > 50)
+	  	{
+	  		alert("First Name cannot be more than 50 characters.");
+	  		return false;
+	  	}
+		lName = document.forms["Yu-Gi-Oh!"]["LastName"].value;
+		if (lName == null || lName == "")
+	  	{
+	  		alert("Last Name must be filled out.");
+	  		return false;
+	  	}
+	   	else if(lName.length >= 50)
+	  	{
+	  		alert("Last Name cannot be more than 50 characters.");
+	  		return false;
+	  	}
+	  	eAddress = document.forms["Yu-Gi-Oh!"]["EmailAddress"].value;
+	  	var eAddress1 = eAddress.indexOf("@");
+		var eAddress2 = eAddress.lastIndexOf(".");
+		if (eAddress1 < 1 || eAddress2 < eAddress1 + 2 || eAddress2 + 2 >= eAddress.length)
+	  	{
+	  		alert("Not a valid e-mail address");
+	  		return false;
+	  	}
+	  	else if(eAddress == null || eAddress == "")
+	  	{
+	  		alert("Email Address must be filled out");
+	  		return false;  		
+	  	}
+	  	
+	  	// If all validation passed, remove form, and add form data to storage, then append it
+	  	result.removeChild(result.lastChild); // Removes form itself
+	  	result.removeChild(result.lastChild); // Removes form title
+	  	formStorage();
+	  	return false; // Stops page from reloading
+	}
+	
+	// localStorage for form data
+	function formStorage()
+	{
+		// Create Local Storage and set it.
+		localStorage.setItem("firstnameform", fName);
+		localStorage.setItem("lastnameform", lName);
+		localStorage.setItem("emailform", eAddress);
+		
+		//H5 Objects
+		var fNameH5 = document.createElement("h5");
+		var lNameH5 = document.createElement("h5");
+		var eAddressH5 = document.createElement("h5");
+			
+		var h3Form = document.createElement("h3");	
+		var formText = document.createTextNode("Thank you for submitting! Here are your data you selected.");
+		h3Form.appendChild(formText);
+		
+		var data5 = document.createTextNode("First Name: " + localStorage.getItem("firstnameform"));
+		fNameH5.appendChild(data5);
+
+   		var data6 = document.createTextNode("Last Name: " + localStorage.getItem("lastnameform"));
+		lNameH5.appendChild(data6);
+
+		var data7 = document.createTextNode("Email Address: " + localStorage.getItem("emailform"));
+		eAddressH5.appendChild(data7);
+
+		// Append all of data from form input.
+		storageResult.appendChild(fNameH5);
+		storageResult.appendChild(lNameH5);
+		storageResult.appendChild(eAddressH5);
+		storageResult.insertBefore(h3Form, storageResult.childNodes[0]);
+	}
+
+	// When Confirm button is clicked
+	function buttonClicked()
+	{		
+		// Remove two buttons
+		result.removeChild(result.lastChild);
+		result.removeChild(result.lastChild);
+		
+		// Removes selects and text
+		storageResult.removeChild(storageResult.firstChild);
+		for(indexCount = 0; indexCount <= index; indexCount++)
+		{
+			jumbotron.removeChild(jumbotron.lastChild);
+		}
+		
+		// Creates form
+		var h3FormText = document.createElement("h3");
+		var h3FormTitle = document.createTextNode("Please fill out the form. All fields are required!");
+		h3FormText.appendChild(h3FormTitle);
+		result.appendChild(h3FormText);
+		createForm();
+	}
+	
+	// When Reject button is clicked
+	function rejectClicked()
+	{		
+		// Quick fix to change button color back to normal
+		buttonReject.setAttribute("style", "this.style.backgroundColor=''");
+		
+		// Remove two buttons
+		result.removeChild(result.lastChild);
+		result.removeChild(result.lastChild);
+		
+		// Removes selects until to first select and text
+		storageResult.removeChild(storageResult.firstChild);
+		for(indexCount = 0; indexCount <= index - 1; indexCount++)
+		{
+			jumbotron.removeChild(jumbotron.lastChild);
+		}
+		
+		// Reset Index back to 0
+		index = 0;
+	}
+
+	// Function to call reselect if select was changed in different index.
+	function reselect(objSelect)
+	{
+		jumbotron.removeChild(jumbotron.lastChild);
+		if(index == 1)
+		{
+			index--;
+		}
+		else if(index == 2)
+		{
+			if(arraySeries.indexOf(thirdData) == -1)
+			{
+				index--;
+			}
+			else
+			{
+				jumbotron.removeChild(jumbotron.lastChild);
+				index = 0;
+			}
+		}
+		check = true;
+		checkSelect = false;
+		if(removeCheck)
+		{
+			objH2.removeChild(objH2.lastChild);
+			objH3.removeChild(objH3.lastChild);
+			while(result.hasChildNodes())
+			{
+				result.removeChild(result.childNodes[0]);
+			}
+			while(storageResult.hasChildNodes())
+			{
+				storageResult.removeChild(storageResult.childNodes[0]);
+			}
+			container.removeChild(container.lastChild);
+			removeCheck = false;
+		}
+		choiceSelect(objSelect);
+	}
+	
+	// Creates select and options 
+	function select()
+	{
+		var seriesCount = 0;
+		
+		//Create select element
+		var objSelect = document.createElement("select");
+		objSelect.setAttribute("class", "col-sm-4");
+		objSelect.setAttribute("onchange", "choiceSelect(this)");
+		
+		//Create options element
+		while(seriesCount < arraySeries.length)
+		{
+			var objOption = document.createElement("option");
+			objOption.setAttribute("class", "form-control");
+        	objOption.setAttribute("value", arraySeries[seriesCount]);
+        	objOption.appendChild(document.createTextNode(arraySeries[seriesCount]));
+        	objSelect.appendChild(objOption); // Append the option to the select
+        	seriesCount++;
+		}
+		jumbotron.appendChild(objSelect); // Append the select to jumbotron
+	}
+	
+	// Create several selects, based on option picked
+	function choiceSelect(objSelect)
+	{
+		if(objSelect.selectedIndex == 0) // Ignores if selected at top.
+		{
+			return false;
+		}
+		objSelectCreate();
+		
+		// Series select index
+		if(index == 0)
+		{
+			if (objSelect.selectedIndex == 1) // If Duel Monsters is chosen.
+			{
+				firstData = objSelect.options[objSelect.selectedIndex].text;
+				character = characterSeries[0];
+				addCharacter();		
+			}
+			else if (objSelect.selectedIndex == 2) // If GX is chosen.
+			{
+				firstData = objSelect.options[objSelect.selectedIndex].text;
+				character = characterSeries[1];
+				addCharacter();
+			}
+			else if (objSelect.selectedIndex == 3) // If 5D's is chosen.
+			{
+				firstData = objSelect.options[objSelect.selectedIndex].text;
+				character = characterSeries[2];
+				addCharacter();	
+			}
+			else if (objSelect.selectedIndex == 4) // If ZeXaL is chosen.
+			{
+				firstData = objSelect.options[objSelect.selectedIndex].text;
+				character = characterSeries[3];
+				addCharacter();	
+			}
+			else if(objSelect.selectedIndex == 5) // If Arc-V is chosen.
+			{
+				firstData = objSelect.options[objSelect.selectedIndex].text;
+				character = characterSeries[4];
+				addCharacter();	
+			}
+		}	
+		else if(index == 1) // After first selection, at character select level
+		{
+			objSelect2 = objSelect;	
+			secondData = objSelect2.options[objSelect2.selectedIndex].text;	
+			modeCheck = false;
+			if(firstData == "Duel Monsters")
+			{
+				var dmData = monsterSeries[0];
+				var dmPic = monsterPic[0];
+				monsterData = dmData[objSelect2.selectedIndex - 1];
+				
+				// Checks if select is in same index, else calls reselect function
+				if(characterSeries[0].indexOf(secondData) != -1)
+				{
+					removeCheck = true;
+					var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+					image.src = "images/" + dmPic[objSelect2.selectedIndex - 1] + ".png";
+					objH2.appendChild(h2Text);
+					if(check)
+					{
+						appendResult(objH2, image);
+					}
+					else
+					{
+						replace(h2Text);
+					}
+				}
+				else
+				{
+					reselect(objSelect2);
+				}
+			}
+			else if(firstData == "GX")
+			{
+				var gxData = monsterSeries[1];
+				var gxPic = monsterPic[1];
+				monsterData = gxData[objSelect2.selectedIndex - 1];
+				
+				// Checks if select is in same index, else calls reselect function
+				if(characterSeries[1].indexOf(secondData) != -1)
+				{
+					removeCheck = true;
+					var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+					image.src = "images/" + gxPic[objSelect2.selectedIndex - 1] + ".png";
+					objH2.appendChild(h2Text);
+					if(check)
+					{
+						appendResult(objH2, image);
+					}
+					else
+					{
+						replace(h2Text);
+					}
+				}
+				else
+				{
+					reselect(objSelect2);				
+				}
+			}
+			else if(firstData == "5D's")
+			{
+				var fivedsData = monsterSeries[2];
+				var fivedsPic = monsterPic[2];
+				monsterData = fivedsData[objSelect2.selectedIndex - 1];
+				
+				// Checks if select is in same index, else calls reselect function
+				if(characterSeries[2].indexOf(secondData) != -1)
+				{
+					removeCheck = true;
+					var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+					image.src = "images/" + fivedsPic[objSelect2.selectedIndex - 1] + ".png";
+					objH2.appendChild(h2Text);
+					if(check)
+					{
+						appendResult(objH2, image);	
+					}
+					else
+					{
+						replace(h2Text);
+					}
+				}
+				else
+				{
+					reselect(objSelect2);
+				}
+			}
+			else if(secondData == "Ryoga Kamishiro" || secondData == "Michael Arclight" || secondData == "Thomas Arclight" || secondData == "Christopher Arclight"|| secondData == "Durbe"|| secondData == "Merag" || secondData == "Arito" || secondData == "Gilag" || secondData == "Mizael")
+			{
+				mode = modeSeries[0];
+				modeNum = 2;
+				addMode();
+			}			
+			else if(secondData == "Yuma Tsukumo" || secondData == "Nasch" || secondData == "Vector")
+			{
+				mode = modeSeries[1];
+				modeNum = 3;
+				addMode();
+			}
+			else if(secondData == "Kaito Tenjo")
+			{
+				mode = modeSeries[2];
+				modeNum = 3;
+				addMode();
+			}
+			else if(secondData == "Don Thousand")
+			{
+				mode = modeSeries[3];
+				modeNum = 2;
+				addMode();
+			}
+			else if(firstData == "Arc-V")
+			{
+				if(secondData != "Yuya Sakai")
+				{
+					var arcvData = monsterSeries[3];
+					var arcvPic = monsterPic[3];
+					monsterData = arcvData[objSelect2.selectedIndex - 2];
+					
+					// Checks if select is in same index, else calls reselect function
+					if(characterSeries[4].indexOf(secondData) != -1)
+					{
+						removeCheck = true;
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + arcvPic[objSelect2.selectedIndex - 2] + ".png";
+						objH2.appendChild(h2Text);
+						if(check)
+						{
+							appendResult(objH2, image);	
+						}
+						else
+						{
+							replace(h2Text);
+						}
+					}
+					else
+					{
+						reselect(objSelect2);
+					}
+				}
+				else
+				{
+					mode = modeSeries[4];
+					modeNum = 2;
+					addMode();
+				}
+			}
+		}
+		else if(index == 2) // After second selection, only available for ZeXaL / Arc-V (Yuya)
+		{
+			objSelect3 = objSelect;
+			thirdData = objSelect3.options[objSelect3.selectedIndex].text;
+			modeCheck = true;
+			
+			// Checks if select is in same index, else calls reselect function
+			if(mode.indexOf(thirdData) != -1)
+			{
+				removeCheck = true;
+				if(modeNum == 2)
+				{
+					if(secondData == "Ryoga Kamishiro")
+					{
+						monsterData = ryogaSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + ryogaPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Michael Arclight")
+					{
+						monsterData = michaelSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + michaelPic[objSelect3.selectedIndex - 1] + ".png";
+					}				
+					else if(secondData == "Thomas Arclight")
+					{
+						monsterData = thomasSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + thomasPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Christopher Arclight")
+					{
+						monsterData = christopherSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + christopherPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Durbe")
+					{
+						monsterData = durbeSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + durbePic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Merag")
+					{
+						monsterData = meragSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + meragPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Arito")
+					{
+						monsterData = aritoSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + aritoPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Gilag")
+					{
+						monsterData = gilagSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + gilagPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Mizael")
+					{
+						monsterData = mizaelSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + mizaelPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Don Thousand")
+					{
+						monsterData = donthousandSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + donthousandPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Yuya Sakai")
+					{
+						monsterData = yuyaSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + yuyaPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					objH2.appendChild(h2Text);
+					if(check)
+					{
+						appendResult(objH2, image);	
+					}
+					else
+					{
+						replace(h2Text);
+					}
+				}
+				else if (modeNum == 3)
+				{
+					if(secondData == "Yuma Tsukumo")
+					{
+						monsterData = yumaSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + yumaPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Kaito Tenjo")
+					{
+						monsterData = kaitoSeries[objSelect3.selectedIndex - 1];
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + kaitoPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Nasch")
+					{
+						monsterData = naschSeries[objSelect3.selectedIndex - 1]
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + naschPic[objSelect3.selectedIndex - 1] + ".png";
+					}
+					else if(secondData == "Vector")
+					{
+						monsterData = vectorSeries[objSelect3.selectedIndex - 1]
+						var h2Text = document.createTextNode(secondData + "'s ace monster is " + monsterData);
+						image.src = "images/" + vectorPic[objSelect3.selectedIndex - 1] + ".png";
+					}	
+					objH2.appendChild(h2Text);
+					if(check)
+					{
+						appendResult(objH2, image);	
+					}
+					else
+					{
+						replace(h2Text);
+					}
+				}
+			}
+			else
+			{
+				reselect(objSelect3);
+			}
+		}
+	}
+	</script>
+</head>
+<body onload="init()">
+	<script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

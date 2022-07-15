@@ -1,0 +1,128 @@
+﻿body {
+	background-color: #CCFFCC;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.banner {
+	background-image:url('../images/Anime_Page_Banner.jpg');
+	height: 100px;
+  	top: 0;
+}
+
+.navigate_link {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background-color: #6666FF;
+	height: 30px;
+	overflow: hidden;
+}
+
+.navigate_link li {
+	float:left;
+}
+
+.navigate_link li a {
+	text-decoration: none;
+	display: block;
+	width: 100px;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding: 5px;
+	background-color: #6666FF;
+	text-align: center;
+	padding: 5px;
+}
+
+.navigate_link li a:hover {
+	background-color: #006699;
+}
+
+.title {
+	text-align: center;
+	width: 100%;
+	margin-top: 25px;
+	height: auto;
+	font-size: 200%;
+	font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.content {
+	margin-top: 2.5%;
+	margin-left: 50px;
+	width: 700 px;
+	font-size: 150%;
+}
+
+#title {
+	background-color: black;
+	color: white;
+}
+
+#header {
+	background-color: #6666FF;
+	color: black;
+}
+
+td {
+	background-color: white;
+}
+
+.centerimage {
+	text-align: center;
+}
+
+#font {
+	font-size: 90%;
+	font-family: Arial;
+}
+
+#fontsize {
+	font-size: 110%;
+	font-family: Arial;
+	font-weight: bold;
+}
+
+#bold {
+	font-weight:bold;
+}
+
+h2 {
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+.rolloverSAO {
+background-image: url('../images/SAO_Title.jpg');
+width: 800px;
+height: 445px;
+display: block;
+}
+
+.rolloverSAO:hover {
+background-image: url('../images/SAO_Example.jpg');
+width: 800px;
+height: 445px;
+display: block;
+}
+
+.rolloverDBZ {
+background-image: url('../images/DBZ_Title.png');
+width: 550px;
+height: 394px;
+display: block;
+}
+
+.rolloverDBZ:hover {
+background-image: url('../images/DBZ_Example.jpg');
+width: 550px;
+height: 394px;
+display: block;
+}
+
+#flashContent { 
+width:100%;
+height:100%;
+}

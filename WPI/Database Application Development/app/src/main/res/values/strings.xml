@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">WPI Online Bookstore</string>
+    <string name="todo">TODO</string>
+    <string name="Dashboard">Dashboard</string>
+    <string name="login_btn">Login</string>
+    <string name="result_btn">Search</string>
+    <string name="backMain_btn">Back to Main Page</string>
+    <string name="backSearch_btn">Back to Search</string>
+    <string-array name="search_type">
+        <item>Title</item>
+        <item>Author</item>
+    </string-array>
+</resources>

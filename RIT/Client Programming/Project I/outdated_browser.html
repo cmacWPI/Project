@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Outdated Browser</title>
+
+	<link href="project1.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script>
+    function init()
+    {
+    	// Add container with element div to document <body> as class "container"
+		container = document.createElement("div");
+		container.setAttribute("class", "container");
+		document.body.appendChild(container);
+			
+		// Add jumbotron with element div to container <div> as class "jumbotron"
+		jumbotron = document.createElement("div");
+		jumbotron.setAttribute("class", "jumbotron");
+		container.appendChild(jumbotron);
+
+		// Add header and title with element h1 to jumbotron <div>
+		header1 = document.createElement("h1");
+		header1Text = document.createTextNode("You are using an outdated browser.");
+		header1.appendChild(header1Text);
+		jumbotron.appendChild(header1);
+		
+		// Add header and title with element h4 to jumbotron <div>
+		var header4 = document.createElement("h4");
+		header4Text = document.createTextNode("Please get the new version of your browser from the list below. Internet Explorer is not recommended");
+		header4.appendChild(header4Text);
+		jumbotron.appendChild(header4);
+		
+		// Create <ui>
+		var ulElement = document.createElement("ui");
+		
+		// Create 3 <li>
+		var line1 = document.createElement("li");
+		var line1Link = document.createElement("a");
+		line1Link.setAttribute("href", "https://www.mozilla.org/en-US/firefox/new/"); 
+		var line1Text = document.createTextNode("Firefox");
+		line1Link.appendChild(line1Text);
+		line1.appendChild(line1Link);
+		
+		var line2 = document.createElement("li");
+		var line2Link = document.createElement("a");
+		line2Link.setAttribute("href", "http://www.google.com/chrome/"); 
+		var line2Text = document.createTextNode("Chrome");
+		line2Link.appendChild(line2Text);
+		line2.appendChild(line2Link);
+		
+		var line3 = document.createElement("li");
+		var line3Link = document.createElement("a");
+		line3Link.setAttribute("href", "https://www.apple.com/support/mac-apps/safari/"); 
+		var line3Text = document.createTextNode("Safari");
+		line3Link.appendChild(line3Text);
+		line3.appendChild(line3Link);
+		
+		ulElement.appendChild(line1);
+		ulElement.appendChild(line2);
+		ulElement.appendChild(line3);
+		
+		jumbotron.appendChild(ulElement);
+	}
+    
+	</script>
+</head>
+<body onload="init()">
+
+	<script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
